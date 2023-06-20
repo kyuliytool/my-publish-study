@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons that are used to open the tab content */
+        .tab button {
+            background-color: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+        /* Style the close button */
+        .topright {
+            float: right;
+            cursor: pointer;
+            font-size: 28px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        .tabcontent {
+            animation: fadeEffect 1s;
+            /* Fading effect takes 1 second */
+        }
+
+        /* Go from zero to full opacity */
+        @keyframes fadeEffect {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Tab links -->
+    <div class="tab">
+        <button class="tablinks" data-city-name="London" data-default="true">London</button>
+        <button class="tablinks" data-city-name="Paris">Paris</button>
+        <button class="tablinks" data-city-name="Tokyo">Tokyo</button>
+    </div>
+
+    <!-- Tab content -->
+    <div class="tabcontent" data-city-name="London">
+        <span class="topright">x</span>
+        <h3>London</h3>
+        <p>London is the capital city of England.</p>
+    </div>
+
+    <div class="tabcontent" data-city-name="Paris">
+        <span class="topright">x</span>
+        <h3>Paris</h3>
+        <p>Paris is the capital of France.</p>
+    </div>
+
+    <div class="tabcontent" data-city-name="Tokyo">
+        <span class="topright">x</span>
+        <h3>Tokyo</h3>
+        <p>Tokyo is the capital of Japan.</p>
+    </div>
+
+    <script>
+        //DOM Tree 가 생성된 경우
+        document.addEventListener('DOMContentLoaded', function () {
+
+            //tablinks 클래스를 가진 요소에 클릭 이벤트 처리를 합니다
+            Array.from(document.getElementsByClassName('tablinks')).forEach(el => {
+                el.addEventListener('click', function () {
+
+                    //선택된 cityName 과 다르면 tabcontent class 를 가진 요소는 숨김 처리 합니다
+                    //선택된 cityName 과 같으면 display:block 처리 합니다
+                    Array.from(document.getElementsByClassName("tabcontent")).forEach(fEl => {
+
+                        if (el.dataset.cityName === fEl.dataset.cityName) {
+                            fEl.style.display = "block";
+                        } else {
+                            fEl.style.display = "none";
+                        }
+                    });
+
+                    // 선택된 cityName 과 다르면 tablinks 를 가진 요소는 강조를 해제 합니다
+                    // 선택된 cityName 과 같으면 tablinks 를 가진 요소는 강조 표시를 합니다
+                    Array.from(document.getElementsByClassName("tablinks")).forEach(fEl => {
+                        if (fEl === el) {
+                            fEl.classList.add('active');
+                        } else {
+                            fEl.classList.remove('active');
+                        }
+                    });
+                });
+            }); //.tablinks click Handle End
+
+            /** data-default 값이 true 인 아이템을 선택 (복수로 존재할 경우 처음 만나는 아이템으로 선택) */
+            Array.from(document.getElementsByClassName('tablinks')).every(el => {
+                return !(el.dataset.default == 'true' && (el.click() || true));
+            });
+
+            Array.from(document.getElementsByClassName('topright')).forEach(el => {
+                el.addEventListener('click', function () {
+                    this.parentElement.style.display = 'none';
+                });
+            });
+
+        }); //DOMContentLoaded Handle End
+    </script>
+</body>
+
+</html>

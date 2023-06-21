@@ -1,1 +1,1 @@
-# my-publish-study
+# CSS & JS 공부
